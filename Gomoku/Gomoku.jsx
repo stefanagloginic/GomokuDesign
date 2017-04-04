@@ -18,36 +18,36 @@ const Scoreboard = React.createClass({
 	}
 });
 
+const Cell = React.createClass({
+	getInitialState: function(){
+
+	},
+
+	render(){
+		
+	}
+});
+
 const Board = React.createClass({
 	createBoard: function(){
-		
+		var board = [];
+		var dict = {5:"cell_5", 6: "cell_6", 10:"cell_10", 11:"cell_11"};
+		for(var i = 0; i < this.props.size; i++){
+			var array_of_td = [];
+			for(var j = 0; j < this.props.size; j++){
+				array_of_td.push(<td className={"cell " + dict[this.props.size]}></td>);
+			}
+			board.push(<tr> { array_of_td } </tr>);
+		}
+
+		return board;
 	},
+
 	render(){
 		return(
 			<div className="table_wrapper">
-				 <table className="board row">
-			        <tbody>
-			            <tr className="heading">
-			                <th className="hcell"></th>
-			                <th className="hcell"></th>
-			                <th className="hcell"></th>
-			            </tr>
-			            <tr className="row2">
-			                <td className="cell"></td>
-			                <td className="cell"></td>
-			                <td className="cell"></td>
-			            </tr>
-			            <tr className="row3">
-			                <td className="cell"></td>
-			                <td className="cell"></td>
-			                <td className="cell"></td>
-			            </tr>
-			            <tr className="row4">
-			                <td className="cell"></td>
-			                <td className="cell"></td>
-			                <td className="cell"></td>
-			            </tr>
-			        </tbody>
+				 <table className="row">
+			        <tbody>{this.createBoard()}</tbody>
 			    </table>
 			</div>
 			);
@@ -67,8 +67,8 @@ const Options = React.createClass({
 		return(
 			<div className="wrapper">
 				<Scoreboard />
-				<div className="row">	
-					<Board size={this.state.selectSize}/>		
+				<div className="row">
+					<Board size={ this.state.selectSize }/>		
 					<div className="options">
 						<p className="board_size_p">Board Size </p>
 						<select className="board_size_option" value={this.state.selectSize} onChange={this.handleSizeChange}>
