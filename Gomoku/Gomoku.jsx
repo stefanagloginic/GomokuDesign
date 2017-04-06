@@ -1,3 +1,7 @@
+var X_PLAYER = 1;
+var O_PLAYER = 0;
+var EMPTY = 7;
+
 const Scoreboard = React.createClass({
 	render(){
 		return(
@@ -47,31 +51,54 @@ const O_Animation = React.createClass({
 const Cell = React.createClass({
 	getInitialState: function(){
 		return({
-			isClicked : false
+			isClicked : false,
+			current_player : EMPTY, 
+			current_symbol : EMPTY 
 		});
 	},
 
 	cellClicked: function(){
-		this.setState({
-			isClicked: !this.isClicked
-		});
+		if(this.state.current_symbol == EMPTY) {
+			var player = this.props.getCurrentPlayer();	
+			var next_player = (player == X_PLAYER) ? O_PLAYER : X_PLAYER;
+			this.setState({isClicked : !this.isClicked, current_player : player});
+			this.props.onCellClick(next_player);
+		} else {
+			alert("Invalid Choice");
+		}
 	},
 
 	render(){
-		return(
-		<td className={this.props.cellName} id="center" onClick={this.cellClicked}>
-		</td>);
+		var inner_element = "";
+		if(!this.state.isClicked && this.state.current_player == EMPTY){
+			//do nothing
+		}
+		else{
+			inner_element = (this.state.current_player == X_PLAYER) ? <X_Animation /> : <O_Animation />;
+			this.state.current_symbol = this.state.current_player;
+		}
+
+		return(<td className={this.props.cellName} id="center" onClick={this.cellClicked}>{inner_element}</td>);
 	}
 });
 
 const Board = React.createClass({
+	getInitialState: function(){
+		return {current_player: X_PLAYER};
+	},
+	getCurrentPlayer: function(){
+		return this.state.current_player;
+	},
+	onCellClick: function(player){
+		this.setState({current_player : player});
+	},
 	createBoard: function(){
 		var board = [];
 		var dict = {5:"cell_5", 6: "cell_6", 10:"cell_10", 11:"cell_11"};
 		for(var i = 0; i < this.props.size; i++){
 			var array_of_td = [];
 			for(var j = 0; j < this.props.size; j++){
-				array_of_td.push(<Cell key= {i+j} cellName={"cell " + dict[this.props.size]} />);
+				array_of_td.push(<Cell key= {i+j} cellName={"cell " + dict[this.props.size]} onCellClick={this.onCellClick} getCurrentPlayer={this.getCurrentPlayer} />);
 			}
 			board.push(<tr key={i}>{ array_of_td }</tr>);
 		}
