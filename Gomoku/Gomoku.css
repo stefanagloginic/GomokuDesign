@@ -111,8 +111,8 @@
 }
 
 .cell_11{
-	width: 32px;
-	height: 32px;
+	width: 33px;
+	height: 33px;
 }
 
 .cell_10:hover, .cell_11:hover{
@@ -164,6 +164,10 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+#center, #center_o{
+	text-align:center;
 }
 
 .x_icon{

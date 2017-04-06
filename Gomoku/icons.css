@@ -1,0 +1,62 @@
+html{
+  background-color: gray;
+}
+
+#main{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#x path{
+    fill: transparent;
+    stroke-dasharray: 62.05488586425781px;
+    stroke-dashoffset: -62.05488586425781px;
+}
+
+.animate_x{
+    stroke: #fff;
+    stroke-width: 1px;
+    fill: transparent;
+    stroke-dasharray: 62.05488586425781px;
+    stroke-dashoffset: -62.05488586425781px;
+    animation: dash .7s linear forwards;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+    fill: white;
+  }
+}
+
+#o circle{
+  stroke-dasharray: 238.37535095214844px;
+  stroke-dashoffset: -238.37535095214844px;
+}
+
+.animate_o{
+  stroke-dashoffset: 238.37535095214844px;
+  stroke-dasharray:  238.37535095214844px;
+  animation: rem-1 .5s linear forwards;
+}
+
+@keyframes rem-1 {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.btn{
+  background-color: blue;
+  border: none;
+  color: white;
+  padding: 20px 50px;
+}
+
+.btn:hover{
+  cursor: pointer;
+  background-color: #00296b;
+}
+

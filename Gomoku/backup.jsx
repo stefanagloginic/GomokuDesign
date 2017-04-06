@@ -22,7 +22,7 @@ const X_Animation = React.createClass({
 	render(){
 		return(
 			<svg id="x" className="svg_icon" width="60px" height="60px" viewBox="0 0 20 20">
-				<path className="animate_x" stroke="#fff" strokeWidth="1" 
+				<path className={this.state.isClicked && this.state.is_x_turn ? "animate_x" : "hide_x"} stroke="#fff" strokeWidth="1" 
 				d="M15.898,4.045c-0.271-0.272-0.713-0.272-0.986,0l-4.71,4.711L5.493,
 				4.045c-0.272-0.272-0.714-0.272-0.986,0s-0.272,0.714,0,0.986l4.709,4.711l-4.71,
 				4.711c-0.272,0.271-0.272,0.713,0,0.986c0.136,0.136,0.314,0.203,0.492,0.203c0.179,
@@ -37,9 +37,7 @@ const X_Animation = React.createClass({
 const O_Animation = React.createClass({
 	render(){
 		return(
-				<svg id="o" className="svg_icon" id="center_o" width="60px" height="60px" xmlns="http://www.w3.org/2000/svg">
-					<circle className="animate_o" cx="30" cy="30" r="15" fill="none" strokeWidth="8" stroke="#fff" />
-				</svg>
+
 			);
 	}
 });
@@ -47,19 +45,26 @@ const O_Animation = React.createClass({
 const Cell = React.createClass({
 	getInitialState: function(){
 		return({
-			isClicked : false
+			isClicked : false, 
+			is_x_turn: false
 		});
 	},
 
 	cellClicked: function(){
 		this.setState({
-			isClicked: !this.isClicked
+			isClicked: !this.isClicked, 
+			is_x_turn: !this.is_x_turn
 		});
+	},
+
+	selectProperAnimation: function(){
+		return this.state.is_x_turn ? <X_Animation /> : <O_Animation />;
 	},
 
 	render(){
 		return(
 		<td className={this.props.cellName} id="center" onClick={this.cellClicked}>
+			{this.selectProperAnimation()}
 		</td>);
 	}
 });
@@ -130,3 +135,10 @@ const Options = React.createClass({
 });
 
 ReactDOM.render(<Options />, document.getElementById('main'));
+
+
+
+
+<svg id="o" className="svg_icon" id="center_o" width="60px" height="60px" xmlns="http://www.w3.org/2000/svg">
+				<circle className={this.state.isClicked && this.state.is_x_turn ? "animate_o" : "hide_o"} cx="30" cy="30" r="15" fill="none" stroke-width="8" stroke="#fff" />
+			</svg>
