@@ -2,6 +2,34 @@ var X_PLAYER = 1;
 var O_PLAYER = 0;
 var EMPTY = 7;
 
+const StartScreen = React.createClass({
+	onClickSelectPlayer_X: function(){ 
+		this.props.setInitialPlayer(X_PLAYER);
+	},
+
+	onClickSelectPlayer_O: function(){
+		this.props.setInitialPlayer(O_PLAYER);
+	},
+
+	render(){
+		return(
+			<div className={this.props.starting_player == EMPTY ? "start_screen" : "hide_start_screen"}>
+		        <p className="directions">SELECT A PLAYER</p>
+		        <div className="inquiry_box">
+		            <div className="x_player player_option">
+		                <p className="font_x_player">X PLAYER</p>  
+		                <i className="material-icons md-36 icon_wrapper" onClick={this.onClickSelectPlayer_X}>clear</i>
+		            </div>
+		            <div className="o_player player_option">
+		                <p className="font_o_player">O PLAYER</p>
+		                <i className="material-icons md-36 icon_wrapper" onClick={this.onClickSelectPlayer_O}>panorama_fish_eye</i>
+		            </div>
+		        </div>
+	    	</div>
+	    	);
+	}
+});
+
 const Scoreboard = React.createClass({
 	render(){
 		return(
@@ -25,7 +53,7 @@ const Scoreboard = React.createClass({
 const X_Animation = React.createClass({
 	render(){
 		return(
-			<svg id="x" className="svg_icon" width="60px" height="60px" viewBox="0 0 20 20">
+			<svg id="x" className="svg_icon" viewBox="0 0 20 20">
 				<path className="animate_x" stroke="#fff" strokeWidth="1" 
 				d="M15.898,4.045c-0.271-0.272-0.713-0.272-0.986,0l-4.71,4.711L5.493,
 				4.045c-0.272-0.272-0.714-0.272-0.986,0s-0.272,0.714,0,0.986l4.709,4.711l-4.71,
@@ -41,8 +69,8 @@ const X_Animation = React.createClass({
 const O_Animation = React.createClass({
 	render(){
 		return(
-				<svg id="o" className="svg_icon" id="center_o" width="60px" height="60px" xmlns="http://www.w3.org/2000/svg">
-					<circle className="animate_o" cx="30" cy="30" r="15" fill="none" strokeWidth="8" stroke="#fff" />
+				<svg id="o" className="svg_icon" id="center_o" xmlns="http://www.w3.org/2000/svg">
+					<circle className="animate_o" cx="50%" cy="50%" r="33%" fill="none" strokeWidth="10.6%" stroke="#fff" />
 				</svg>
 			);
 	}
@@ -83,22 +111,13 @@ const Cell = React.createClass({
 });
 
 const Board = React.createClass({
-	getInitialState: function(){
-		return {current_player: X_PLAYER};
-	},
-	getCurrentPlayer: function(){
-		return this.state.current_player;
-	},
-	onCellClick: function(player){
-		this.setState({current_player : player});
-	},
 	createBoard: function(){
 		var board = [];
 		var dict = {5:"cell_5", 6: "cell_6", 10:"cell_10", 11:"cell_11"};
 		for(var i = 0; i < this.props.size; i++){
 			var array_of_td = [];
 			for(var j = 0; j < this.props.size; j++){
-				array_of_td.push(<Cell key= {i+j} cellName={"cell " + dict[this.props.size]} onCellClick={this.onCellClick} getCurrentPlayer={this.getCurrentPlayer} />);
+				array_of_td.push(<Cell key= {i+j} cellName={"cell " + dict[this.props.size]} onCellClick={this.props.onCellClick} getCurrentPlayer={this.props.getCurrentPlayer} />);
 			}
 			board.push(<tr key={i}>{ array_of_td }</tr>);
 		}
@@ -119,7 +138,18 @@ const Board = React.createClass({
 
 const Options = React.createClass({
 	getInitialState: function(){
-		return{selectSize: 5};
+		return{selectSize: 5, current_player: EMPTY};
+	},
+
+	setInitialPlayer: function(player){
+		this.setState({current_player : player});
+	},
+
+	getCurrentPlayer: function(){
+		return this.state.current_player;
+	},
+	onCellClick: function(player){
+		this.setState({current_player : player});
 	},
 
 	handleSizeChange: function(event){
@@ -129,9 +159,10 @@ const Options = React.createClass({
 	render(){
 		return(
 			<div className="wrapper">
+				<StartScreen setInitialPlayer={ this.setInitialPlayer } starting_player={this.state.current_player} />
 				<Scoreboard />
 				<div className="row">
-					<Board size={ this.state.selectSize }/>		
+					<Board size={ this.state.selectSize } onCellClick={this.onCellClick} getCurrentPlayer={this.getCurrentPlayer}/>		
 					<div className="options">
 						<p className="board_size_p">Board Size </p>
 						<select className="board_size_option" value={this.state.selectSize} onChange={this.handleSizeChange}>
@@ -140,12 +171,12 @@ const Options = React.createClass({
 							<option className="size_10 size" value={10}>10 x 10</option>
 							<option className="size_11 size" value={11}>11 x 11</option>
 						</select>
-						<p className="player">Player</p>
+						<p className="player">{this.getCurrentPlayer() == X_PLAYER ? "X Player's Turn" : "O Player's Turn"}</p>
 						<div className="icons row">
-							<div className="font_icon o_icon">
+							<div className={this.getCurrentPlayer() == O_PLAYER ? "font_icon o_icon o_icon_focus" : "font_icon o_icon"}>
 								<i className="fa fa-circle-o fa-2x"></i>
 							</div>
-							<div className="font_icon x_icon">
+							<div className={this.getCurrentPlayer() == X_PLAYER ? "font_icon x_icon x_icon_focus" : "font_icon x_icon"}>
 								<i className="fa fa-times fa-2x"></i>
 							</div>
 						</div>

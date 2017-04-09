@@ -1,8 +1,16 @@
 *{
 	margin: 0;
 	padding: 0;
+	font-family: 'Roboto', sans-serif;
 }
 
+body{
+	background: #007991;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #78ffd6, #007991);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #78ffd6, #007991); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+
+}
 .wrapper{
 	display: flex;
 	align-content: center;
@@ -12,13 +20,12 @@
 }
 
 .title{
-	font-family: 'Playfair Display', serif;
 	margin-top: 10px;
 	text-align: center;
 }
 
 .scoreboard{
-	border: 1px solid #949494;
+	border: 1px solid rgba(43, 0, 158, 0.5);
 	border-radius: 5px;
 	width: 360px; /*want to divide into three pieces*/
 	height:  125px;
@@ -46,7 +53,7 @@
 	display: flex;
   	justify-content: center;
   	flex-direction: column;
-  	border-left: solid 2px #949494;
+  	border-left: solid 2px rgba(43, 0, 158, 0.5);
 }
 
 .win p, .lose p{
@@ -56,6 +63,7 @@
 
 .player{
 	color: white;
+	margin-top: 20%;
 	margin-bottom: 3px;
 	font-size: 23px;
 }
@@ -67,7 +75,7 @@
 	width: 900px;
 	height: 400px;
 	background-color: rgb(28, 0, 102);
-	position: relative;
+	border: solid 2px white;
 }
 
 .options{
@@ -75,11 +83,10 @@
 	height: 400px;
 	margin-top: 7px;
 	background-color: rgb(43, 0, 158);
+	border: solid 2px white;
 	display: flex;
-	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	position: relative;
 }
 
 .dropdown{
@@ -137,8 +144,10 @@
 	height: 30px;
 	background-color: white;
 	border-radius: 5px;
-	position: absolute;
-	top: 50px;	
+}
+
+.board_size_option:hover{
+	cursor: pointer;
 }
 
 .size{
@@ -148,7 +157,7 @@
 
 .board_size_p{
 	color: white;
-	position: absolute;
+	margin-top: 20%;
 	top: 5px;
 	font-size: 23px;
 }
@@ -179,18 +188,24 @@
 	height: 100%;
 }
 
-i{
+i .fa{
 	position: fixed;
 }
 
-.x_icon:hover{
-	border-bottom: 3px solid red;
+.x_icon_focus{
+	background-color: #616161;
+	color: white;
 	border-radius: 0 5px 5px 0;
 	cursor: pointer;
+	transition: background-color .6s ease, color .6s ease;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.30), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
-.o_icon:hover{
-	border-bottom: 3px solid red;
+.o_icon_focus{
+	background-color: red;
+	color: white;
 	border-radius: 5px 0px 0px 5px;
 	cursor: pointer;
+	transition: background-color .6s ease, color .6s ease;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.30), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
